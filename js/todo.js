@@ -13,14 +13,17 @@ function savedTodo() {
 function deleteTodo(event) {
   const li = event.target.parentElement;
   li.remove();
+  Todos = Todos.filter((toDo) => parseInt(toDo.id) !== parseInt(li.id));
+  savedTodo();
 }
 
 function patinTodo(newTodo) {
   const li = document.createElement("li");
+  li.id = newTodo.id;
   const span = document.createElement("spsan");
   const button = document.createElement("button");
-  span.innerHTML = newTodo;
-  button.innerText = "❌";
+  span.innerHTML = newTodo.text;
+  button.innerText = "  ❌  ";
   button.addEventListener("click", deleteTodo);
   li.appendChild(span);
   li.appendChild(button);
@@ -31,8 +34,12 @@ function handleTodoSubmit(event) {
   event.preventDefault();
   const newTodo = todoInput.value;
   todoInput.value = "";
-  Todos.push(newTodo);
-  patinTodo(newTodo);
+  const newTodoObj = {
+    text: newTodo,
+    id: Date.now(),
+  };
+  Todos.push(newTodoObj);
+  patinTodo(newTodoObj);
   savedTodo();
 }
 
